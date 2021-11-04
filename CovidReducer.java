@@ -12,7 +12,6 @@ public class CovidReducer extends Reducer<Text, IntWritable, Text, IntWritable> 
         for (IntWritable value : values){
             String[] token = values.toString().split(",");
             
-            
         }
 
         context.write(key, new IntWritable(total_cases_deaths));
