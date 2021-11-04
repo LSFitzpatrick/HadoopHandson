@@ -6,10 +6,13 @@ public class CovidReducer extends Reducer<Text, IntWritable, Text, IntWritable> 
     @Override
     public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException{
         
-        int total_cases_deaths = 0;
+        IntWritable total_cases = new IntWritable(0);
+        IntWritable total_deaths = new IntWritable(0);
 
         for (IntWritable value : values){
-            total_cases_deaths = total_cases_deaths + value.get();
+            String[] token = values.toString().split(",");
+            
+            
         }
 
         context.write(key, new IntWritable(total_cases_deaths));

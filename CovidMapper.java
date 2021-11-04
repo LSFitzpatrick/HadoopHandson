@@ -6,9 +6,11 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 public class CovidMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
 
-
+    Text continent = new Text();
+    Text location = new Text();
     IntWritable new_cases = new IntWritable();
     IntWritable new_deaths = new IntWritable();
+    Text cases_deaths = new Text();
     
 
 
@@ -20,10 +22,10 @@ public class CovidMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
         String continent = col[0];
         String location = col[1];
 
-        int new_cases = Integer.parseInt(col[3]);
-        int new_deaths = Integer.parseInt(col[4]);
+        new_cases = Integer.parseInt(col[3]);
+        new_deaths = Integer.parseInt(col[4]);
         
-        total = total +(new_cases + new_deaths);
+        cases_deaths = String.valueOf(new_cases) + " , " + String.valueOf(new_deaths);
      
         int isGeographicRegion = 0; //this will tell if the data set is a geographical region and not a country
 
@@ -31,10 +33,9 @@ public class CovidMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
             isGeographicRegion = 1;
         }
 
-        if(isGeographicRegion != 1 && total != 0){
-            context.write(new Text(location), new IntWritable(total));
+        if(isGeographicRegion != 1){
+            context.write(new Text(location), new Text(cases_deaths));
         }
-        
-
+       
     }
 }
